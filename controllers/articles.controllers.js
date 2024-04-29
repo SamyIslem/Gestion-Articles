@@ -96,6 +96,7 @@ const deleteArticle = async (req, res) => {
     });
   }
 };
+
 const editArticle = async (req, res) => {
   const { id } = req.params;
   const { titre, contenu, id_categorie,} = req.body;

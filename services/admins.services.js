@@ -1,3 +1,4 @@
+const { response } = require("express");
 const { db } = require("../utils/db");
 
 const { promisify } = require("util");
@@ -43,23 +44,26 @@ const createAdmin = async (admin) => {
   } catch (err) {}
 };
 
-const alterFirstName = async (id, firstname) => {
-  try {
-    const exist = await isAdminExist(id);
 
-    if (!exist) return false;
-    await query(`UPDATE admins SET firstname="${firstname}" where id =${id} `);
-  } catch (err) {
-    throw new Error(err.message);
-  }
+
+const editAdmin = async (id, admin) => {
+  const sqlQuery = ` UPDATE admins SET ${
+    admin.firstname ? `firstname = "${admin.firstname}", ` : " "
+  } ${admin.lastname ? `lastname = "${admin.lastname}", ` : " "} 
+  ${admin.createdby ? `createdby = "${admin.createdby}", ` : " "} 
+  updated_at = NOW()
+  WHERE id = ${id} `;
+
+  const response = await query(sqlQuery)
+  if (!response) return false;
+  return admin;
+
 };
-
-
 
 module.exports = {
   createAdmin,
   getAdmins,
   isAdminExist,
   getAdmin,
-  alterFirstName,
+  editAdmin
 };

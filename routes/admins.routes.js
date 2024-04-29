@@ -12,6 +12,6 @@ router.post(
 );
 router.get("/", adminsController.getAdmins);
 router.get("/:id", adminsController.getAdmin);
-router.put("/:id", adminsController.alterFirstName);
+router.put("/:id", adminsController.editAdmin);
 
 module.exports = router;

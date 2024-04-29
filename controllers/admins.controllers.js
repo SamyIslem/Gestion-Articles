@@ -51,30 +51,21 @@ const createAdmin = async (req, res) => {
   }
 };
 
-const alterFirstName = async (req, res) => {
+const editAdmin = async (req, res) => {
+  const { id } = req.params;
+  const { firstname, lastname, createdby } = req.body;
+  const admin = {
+    firstname,
+    lastname,
+    createdby,
+  };
+
   try {
-    const { firstname } = req.body;
-    const { id } = req.params;
+    const response = await adminsServices.editAdmin(id, admin);
 
-    if (isNaN(id)) {
-      res.status(400).json({
-        success: false,
-        message: "L'identifiant doit etre un entier  ",
-      });
-      return;
-    }
-    await adminsServices.alterFirstName(id, firstname);
-
-    res.status(200).json({
-      success: true,
-      message: "l'administrateur a été modifié avec succès ",
-    });
+    res.status(201).json({ success: true, admin: response.admin });
   } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
-    console.log(err);
+    res.status(500).json({ success: false, message: err.message });
   }
 };
 
@@ -82,5 +73,5 @@ module.exports = {
   createAdmin,
   getAdmins,
   getAdmin,
-  alterFirstName,
+  editAdmin,
 };

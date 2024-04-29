@@ -25,7 +25,7 @@ const getArticleByTitle = async (title) => {
   return article[0];
 };
 
-const getArticles = async (req, res) => {
+const getArticles = async () => {
   const articles = await query("select * from articles");
   return articles;
 };
